@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import img from "../assets/HomeImage.jpg";
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F0FF] text-gray-900 text-center p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen text-gray-900 text-center ">
      
       <div className="max-w-3xl">
         
