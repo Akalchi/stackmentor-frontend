@@ -1,7 +1,9 @@
 import "./App.css";
+
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import AppRoutes from "./routes/AppRoutes";
-const Home = () => {
+function App () {
   return (
     <div className="flex flex-col min-h-screen">
       
@@ -9,9 +11,10 @@ const Home = () => {
       <Header />
       <AppRoutes />
     </div>
+    <Footer />
   </div>
   );
 };
 
-export default Home;
+export default App;
 
