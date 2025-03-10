@@ -1,10 +1,13 @@
 import "./App.css";
-
+import AppRoutes from "./routes/AppRoutes";
 const Home = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-blue-500 text-white text-3xl">
-      Welcome to Stack Mentor 🚀
+    <div className="flex flex-col min-h-screen">
+      
+    <div className="flex-grow">
+      <AppRoutes />
     </div>
+  </div>
   );
 };
 
