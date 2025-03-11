@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import SideBar from "../components/SideBar";
+
 
 const Dashboard = () => {
   const { user, isAuthenticated, handleLogout } = useContext(AuthContext);
@@ -53,6 +53,12 @@ const Dashboard = () => {
           >
             Cerrar Sesión
           </button>
+
+          <h2 className="text-2xl font-bold text-[#6A0DAD] mb-4">
+            📚 Tus Recursos - {selectedCategory} / {selectedSubcategory}
+          </h2>
+          
+          <ResourceList selectedCategory={selectedCategory} selectedSubcategory={selectedSubcategory} />
 
         </div>
       </div>
