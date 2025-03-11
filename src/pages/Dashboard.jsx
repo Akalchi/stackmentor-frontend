@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import ResourceList from "../components/ResourceList";
+
 
 const Dashboard = () => {
   const { user, isAuthenticated, handleLogout } = useContext(AuthContext);
@@ -27,8 +27,9 @@ const Dashboard = () => {
       <Header setSelectedCategory={setSelectedCategory} setSelectedSubcategory={setSelectedSubcategory} />
 
       <div className="flex p-6">
-       
 
+      <SideBar selectedCategory={selectedCategory} setSelectedSubcategory={setSelectedSubcategory} />
+       
         <div className="flex-grow bg-white shadow-lg rounded-lg p-6">
     
           <div className="flex items-center space-x-4 mb-6">
