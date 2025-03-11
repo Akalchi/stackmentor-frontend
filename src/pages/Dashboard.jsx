@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import ResourceList from "../components/ResourceList";
 
 
 const Dashboard = () => {
@@ -28,7 +30,7 @@ const Dashboard = () => {
 
       <div className="flex p-6">
 
-      <SideBar selectedCategory={selectedCategory} setSelectedSubcategory={setSelectedSubcategory} />
+      <Sidebar selectedCategory={selectedCategory} setSelectedSubcategory={setSelectedSubcategory} />
        
         <div className="flex-grow bg-white shadow-lg rounded-lg p-6">
     
