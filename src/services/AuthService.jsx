@@ -1,28 +1,49 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/api/auth/";
+
+const API_URL = "http://localhost:8080/api/auth";
+
 export const register = async (name, email, password) => {
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  const existingUser = users.find((user) => user.email === email);
-  if (existingUser) {
-    throw new Error("El usuario ya está registrado.");
+  try {
+    const response = await axios.post(
+      `${API_URL}/register`,
+      { name, email, password },
+      { withCredentials: true } 
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Error en el registro.");
   }
-  const newUser = { name, email, password };
-  users.push(newUser);
-  localStorage.setItem("users", JSON.stringify(users));
-  return newUser;
 };
+
 export const login = async (email, password) => {
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const user = users.find((user) => user.email === email && user.password === password);
-  if (!user) {
-    throw new Error("Email o contraseña incorrectos.");
+  try {
+    const response = await axios.post(
+      `${API_URL}/login`,
+      { email, password },
+      { withCredentials: true }
+    );
+
+    const user = response.data;
+    localStorage.setItem("user", JSON.stringify(user)); 
+
+    return user;
+  } catch (error) {
+    throw new Error(error.response?.data || "Error en el inicio de sesión.");
   }
-  localStorage.setItem("user", JSON.stringify(user));
-  return user;
 };
+
 export const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("user"); 
 };
-export const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+
+export const getCurrentUser = async (email) => {
+  try {
+    const response = await axios.get(`${API_URL}/current-user?email=${encodeURIComponent(email)}`, {
+      withCredentials: true, 
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Error al obtener el usuario actual.");
+  }
 };

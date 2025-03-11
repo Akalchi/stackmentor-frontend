@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import img from "../assets/HomeImage.jpg";
+
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-gray-900 text-center ">
