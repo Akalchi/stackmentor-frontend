@@ -1,36 +1,30 @@
 import { useState, useEffect } from "react";
+import { getUserResources } from "../services/ResourceService";
 
 const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
+  const [resources, setResources] = useState([]);
   const [view, setView] = useState("list");
   const [searchQuery, setSearchQuery] = useState("");
-
-  const resources = {
-    Frontend: {
-      HTML: [{ title: "HTML Basics", description: "Curso de HTML", id: 1 }],
-      CSS: [{ title: "CSS Flexbox", description: "Guía de Flexbox", id: 2 }],
-      JavaScript: [{ title: "ES6 Features", description: "Conceptos de ES6", id: 3 }],
-      React: [{ title: "React Hooks", description: "Uso de hooks en React", id: 4 }],
-    },
-    Backend: {
-      "Java con Spring Boot": [{ title: "Spring Boot API", description: "Creando APIs REST", id: 5 }],
-    },
-    Testing: {
-      JUnit: [{ title: "JUnit para Java", description: "Pruebas en Spring Boot", id: 6 }],
-      Hamcrest: [{ title: "Hamcrest Matchers", description: "Uso de matchers en JUnit", id: 7 }],
-    },
-  };
-
-  const selectedResources = resources[selectedCategory]?.[selectedSubcategory] || [];
-
-  const [ratings, setRatings] = useState(() => {
-    return JSON.parse(localStorage.getItem("ratings")) || {};
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("ratings", JSON.stringify(ratings));
-  }, [ratings]);
+    const fetchResources = async () => {
+      try {
+        const data = await getUserResources(selectedCategory, selectedSubcategory);
+        setResources(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  
+    fetchResources();
+  }, [selectedCategory, selectedSubcategory]);
+
+  if (loading) return <p className="text-gray-600">Cargando recursos...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
     <div className="bg-[#D9B2FF] rounded-lg shadow-lg p-6">
@@ -48,6 +42,26 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
           {view === "list" ? "📷 Vista en Cuadrícula" : "📄 Vista en Lista"}
         </button>
       </div>
+
+      {view === "list" ? (
+        <ul className="space-y-4">
+          {resources.map((res) => (
+            <li key={res.id} className="bg-white p-4 rounded-lg shadow-md">
+              <h3 className="text-lg font-bold">{res.title}</h3>
+              <p className="text-gray-600">{res.description}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="grid grid-cols-3 gap-4">
+          {resources.map((res) => (
+            <div key={res.id} className="bg-white p-4 rounded-lg shadow-md">
+              <h3 className="text-lg font-bold text-center">{res.title}</h3>
+              <p className="text-gray-600 text-center">{res.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
