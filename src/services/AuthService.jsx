@@ -4,55 +4,46 @@ const API_URL = "http://localhost:8080/api/auth";
 
 export const register = async (name, email, password) => {
   try {
-    const response = await fetch(`${API_URL}/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-
-    return await response.json();
+    const response = await axios.post(
+      `${API_URL}/register`,
+      { name, email, password },
+      { withCredentials: true } 
+    );
+    return response.data;
   } catch (error) {
-    throw new Error(error.message || "Error en el registro.");
+    throw new Error(error.response?.data || "Error en el registro.");
   }
 };
 
 export const login = async (email, password) => {
   try {
-    const response = await fetch(`${API_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await axios.post(
+      `${API_URL}/login`,
+      { email, password },
+      { withCredentials: true }
+    );
 
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
+    const user = response.data;
+    localStorage.setItem("user", JSON.stringify(user)); 
 
-    return await response.json();
+    return user;
   } catch (error) {
-    throw new Error(error.message || "Error en el inicio de sesión.");
+    throw new Error(error.response?.data || "Error en el inicio de sesión.");
   }
 };
 
-export const logout = () => {};
+export const logout = () => {
+  localStorage.removeItem("user"); 
+};
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (email) => {
   try {
-    const response = await fetch(`${API_URL}/current-user`, {
-      method: "GET",
-      credentials: "include",
+    const response = await axios.get(`${API_URL}/current-user?email=${encodeURIComponent(email)}`, {
+      withCredentials: true, 
     });
 
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
-  } catch {
-    return null;
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Error al obtener el usuario actual.");
   }
 };
