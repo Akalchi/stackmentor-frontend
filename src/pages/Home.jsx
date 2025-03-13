@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
-import { FaRocket, FaCode, FaServer, FaBug } from "react-icons/fa"; // Íconos
+import { FaRocket, FaCode, FaServer, FaBug } from "react-icons/fa";
 
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#F3F0FF] text-gray-900 p-8">
-      {/* Contenedor Principal */}
+
       <div className="text-center max-w-3xl">
-        {/* Título Principal */}
+
         <h1 className="text-5xl font-extrabold text-[#FF6600] flex items-center justify-center gap-2">
           Bienvenido a StackMentor <FaRocket />
         </h1>
 
-        {/* Descripción */}
         <p className="text-lg text-gray-700 mt-4">
           StackMentor es una plataforma diseñada para ayudarte a encontrar los mejores
           recursos para tu <span className="font-bold">bootcamp</span> y potenciar tu aprendizaje en{" "}
@@ -20,7 +19,6 @@ const Home = () => {
           <span className="text-[#E63946] font-bold">Testing</span>.
         </p>
 
-        {/* Botones de acción */}
         <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center">
           <Link
             to="/register"
@@ -28,13 +26,13 @@ const Home = () => {
           >
             Regístrate Gratis
           </Link>
-          
+
         </div>
       </div>
 
-      {/* Categorías de Recursos */}
+
       <div className="mt-12 text-center">
-       
+
         <p className="text-gray-600 mb-6">
           Explora nuestra biblioteca de contenido organizada en tres grandes categorías:
         </p>
@@ -69,7 +67,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Beneficios de la plataforma */}
       <div className="mt-12 max-w-3xl text-center">
         <h3 className="text-2xl font-bold text-[#6A0DAD] mb-4">🚀 ¿Por qué usar StackMentor?</h3>
         <ul className="text-gray-700 space-y-2">

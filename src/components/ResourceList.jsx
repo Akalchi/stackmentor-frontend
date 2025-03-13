@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { getUserResources } from "../services/ResourceService";
+import CommentModal from "./CommentModal"; 
 import axios from "axios";
 
 const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
@@ -7,6 +8,7 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedResourceId, setSelectedResourceId] = useState(null); 
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -23,7 +25,6 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
     fetchResources();
   }, [selectedCategory, selectedSubcategory]);
 
-  // Filtrado en tiempo real
   const filteredResources = useMemo(() => {
     return resources.filter((res) =>
       res.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -31,7 +32,6 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
     );
   }, [resources, searchQuery]);
 
-  //Descargar  archivos usando JSON con Base64
   const downloadFile = async (id, fileName, fileType) => {
     try {
       const response = await axios.get(`http://localhost:8080/api/resources/file/json/id/${id}`);
@@ -43,8 +43,6 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
 
       const base64File = response.data.fileData;
       const mimeType = response.data.fileType || "application/octet-stream";
-
-      // Convertir Base64 a Blob
       const byteCharacters = atob(base64File);
       const byteNumbers = new Array(byteCharacters.length)
         .fill()
@@ -52,7 +50,6 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
       const byteArray = new Uint8Array(byteNumbers);
       const fileBlob = new Blob([byteArray], { type: mimeType });
 
-      // Crear un enlace de descarga
       const link = document.createElement("a");
       link.href = URL.createObjectURL(fileBlob);
       link.download = fileName;
@@ -72,46 +69,58 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
           <li key={res.id} className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-bold">{res.title}</h3>
             <p className="text-gray-600">{res.description}</p>
+          
+            <div className="mt-3 flex flex-wrap gap-2">
+              {res.fileName && (
+                <>
+                  <a
+                    href={`http://localhost:8080/api/resources/file/name/${encodeURIComponent(res.fileName)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#6A0DAD] text-white px-4 py-2 rounded-lg hover:bg-[#4E097C] transition"
+                  >
+                    📂 Ver Archivo
+                  </a>
 
-            {/*Mostrar solo si es una URL y NO tiene archivo */}
-            {res.url && !res.fileName && (
-              <a
-                href={res.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition inline-block mt-2"
-              >
-                🌍 Abrir Enlace
-              </a>
-            )}
+                  <button
+                    onClick={() => downloadFile(res.id, res.fileName, res.fileType)}
+                    className="bg-[#FF6600] text-white px-4 py-2 rounded-lg hover:bg-[#e65c00] transition"
+                  >
+                    ⬇️ Descargar
+                  </button>
+                </>
+              )}
 
-            {/* Mostrar solo si tiene un archivo */}
-            {res.fileName && (
-              <div className="mt-3 flex gap-4">
-                {/*Ver archivo en el navegador */}
+              {res.url && !res.fileName && (
                 <a
-                  href={`http://localhost:8080/api/resources/file/name/${encodeURIComponent(res.fileName)}`}
+                  href={res.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#6A0DAD] text-white px-4 py-2 rounded-lg hover:bg-[#4E097C] transition"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition"
                 >
-                  📂 Ver Archivo
+                  🌍 Abrir Enlace
                 </a>
-
-                {/*Descargar archivo usando Base64 */}
-                <button
-                  onClick={() => downloadFile(res.id, res.fileName, res.fileType)}
-                  className="bg-[#FF6600] text-white px-4 py-2 rounded-lg hover:bg-[#e65c00] transition"
-                >
-                  ⬇️ Descargar
-                </button>
-              </div>
-            )}
+              )}           
+              <button
+                onClick={() => setSelectedResourceId(res.id)}
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition"
+              >
+                🗨️ Ver Comentarios
+              </button>
+            </div>
           </li>
         ))}
-      </ul>
+      </ul>    
+      {selectedResourceId && (
+       <CommentModal
+       resourceId={selectedResourceId} 
+       closeModal={() => setSelectedResourceId(null)} 
+     />
+      )}
     </div>
   );
 };
 
 export default ResourceList;
+
+
