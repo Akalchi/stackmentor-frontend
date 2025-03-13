@@ -3,7 +3,10 @@ import { getUserResources } from "../services/ResourceService";
 import CommentModal from "./CommentModal"; 
 import axios from "axios";
 
-const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
+const ResourceList = ({ selectedCategory, selectedSubcategory, userId, userEmail }) => {
+  if (!userId || !userEmail) {
+    return <p>Cargando usuario...</p>;
+  }
   const [resources, setResources] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -111,11 +114,13 @@ const ResourceList = ({ selectedCategory, selectedSubcategory }) => {
           </li>
         ))}
       </ul>    
-      {selectedResourceId && (
+      {selectedResourceId && userId && ( 
        <CommentModal
-       resourceId={selectedResourceId} 
-       closeModal={() => setSelectedResourceId(null)} 
-     />
+         resourceId={selectedResourceId} 
+         userId={userId} 
+         userEmail={userEmail} 
+         closeModal={() => setSelectedResourceId(null)} 
+       />
       )}
     </div>
   );

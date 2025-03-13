@@ -17,29 +17,35 @@ export const addComment = async (resourceId, userId, content) => {
   }
 
   try {
-    const response = await axios.post(
-      "http://localhost:8080/api/comments",
-      { resourceId: String(resourceId), userId: String(userId), content },
-      { headers: { "Content-Type": "application/json" } }
-    );
-
+    const response = await axios.post(API_URL, { resourceId, userId, content });
     return response.data;
   } catch (error) {
-     throw new Error("Error al agregar el comentario");
-  }
-};
-export const updateComment = async (commentId, text) => {
-  try {
-    await axios.put(`${API_URL}/${commentId}`, { text });
-  } catch (error) {
-    throw new Error("Error al actualizar el comentario");
+    throw new Error("Error al agregar el comentario");
   }
 };
 
-export const deleteComment = async (commentId) => {
+export const updateComment = async (commentId, userId, newContent) => {
   try {
-    await axios.delete(`${API_URL}/${commentId}`);
+    const response = await axios.put(`${API_URL}/${commentId}`, { userId, newContent });
+    return response.data;
   } catch (error) {
+    console.error("❌ Error al editar comentario:", error.response?.data || error);
+    throw error;
+  }
+};
+
+export const deleteComment = async (commentId, userEmail) => {
+  try {
+    await axios.delete(`${API_URL}/${commentId}`, { params: { userEmail } });
+  } catch (error) {
+    console.error("❌ Error al eliminar comentario:", error.response?.data || error);
     throw new Error("Error al eliminar el comentario");
   }
 };
+
+
+
+
+
+
+
