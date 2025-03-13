@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../services/authService";
+import { register } from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 import imgRegister from "../assets/register.png";
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ const Register = () => {
     setError(null);
 
     try {
-      const userData = await register(name, email, password);
+      const userData = await register(username, email, password);
       setUser(userData);
       setIsAuthenticated(true);
       navigate("/dashboard");
@@ -50,8 +50,8 @@ const Register = () => {
               <input
                 type="text"
                 placeholder="Ingrese su Nombre"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
                 required
                 className="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6A0DAD]"
               />

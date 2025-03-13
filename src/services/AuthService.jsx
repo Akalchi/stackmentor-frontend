@@ -2,11 +2,11 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/auth";
 
-export const register = async (name, email, password) => {
+export const register = async (username, email, password) => {
   try {
     const response = await axios.post(
       `${API_URL}/register`,
-      { name, email, password },
+      { username, email, password },
       { withCredentials: true } 
     );
     return response.data;
