@@ -8,7 +8,6 @@ function App () {
     <div className="flex flex-col min-h-screen bg-[#F3F0FF]">
       
     <div className="flex-grow">
-      <Header />
       <AppRoutes />
     </div>
     <Footer />
