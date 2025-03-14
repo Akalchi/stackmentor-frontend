@@ -11,9 +11,9 @@ const ResourceForm = ({ onResourceAdded, closeModal }) => {
   const [file, setFile] = useState(null);
 
   const subcategories = {
-    Frontend: ["HTML", "CSS", "JavaScript", "React"],
-    Backend: ["Spring Boot","Node.js","ApiRest"],
-    Testing: ["JUnit", "Hamcrest", "Jest"],
+    Frontend: ["HTML", "CSS", "JAVASCRIPT", "REACT"],
+    Backend: ["SPRING BOOT", "NODE.JS", "API REST"],
+    Testing: ["JUNIT", "HAMCREST", "JEST"],
   };
 
   const handleFileChange = (e) => {
@@ -121,7 +121,7 @@ const ResourceForm = ({ onResourceAdded, closeModal }) => {
           )}
 
           <button type="submit" className="w-full bg-[#FF6600] text-white py-2 rounded-lg hover:bg-[#e65c00]">
-            Subir Recurso
+            Subir Recursos
           </button>
           <button
             type="button"
