@@ -46,7 +46,7 @@ const ResourceForm = ({ onResourceAdded, closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-2xl bg-white bg-opacity-30" >
+    <div className="fixed inset-0 flex items-center justify-center" >
       <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative z-50">
 
         <button
