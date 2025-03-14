@@ -1,9 +1,10 @@
+
 const Sidebar = ({ selectedCategory, setSelectedSubcategory }) => {
-    const subcategories = {
-      Frontend: ["HTML", "CSS", "JavaScript", "React"],
-      Backend: ["Java con Spring Boot"],
-      Testing: ["JUnit", "Hamcrest"],
-    };
+  const subcategories = {
+    Frontend: ["HTML", "CSS", "JAVASCRIPT", "REACT"],
+    Backend: ["SPRING BOOT", "NODE.JS", "API REST"],
+    Testing: ["JUNIT", "HAMCREST", "JEST"],
+  };
     return (
       <div className="bg-[#D9B2FF] p-6 rounded-lg shadow-lg w-56">
         <h3 className="text-[#6A0DAD] text-lg font-bold mb-4">Categorías</h3>
