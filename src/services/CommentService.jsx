@@ -24,24 +24,34 @@ export const addComment = async (resourceId, userId, content) => {
   }
 };
 
-export const updateComment = async (commentId, userId, newContent) => {
+export const updateComment = async (commentId, userEmail, newContent) => {
   try {
-    const response = await axios.put(`${API_URL}/${commentId}`, { userId, newContent });
+    const response = await axios.put(`${API_URL}/${commentId}`, null, {
+      params: { userEmail, newContent },
+    });
     return response.data;
-  } catch (error) {
-    console.error("❌ Error al editar comentario:", error.response?.data || error);
+  } catch (error) {    
     throw error;
   }
 };
 
 export const deleteComment = async (commentId, userEmail) => {
   try {
-    await axios.delete(`${API_URL}/${commentId}`, { params: { userEmail } });
-  } catch (error) {
-    console.error("❌ Error al eliminar comentario:", error.response?.data || error);
+    await axios.delete(`${API_URL}/${commentId}`, {
+      params: { userEmail },
+    });
+  } catch (error) {    
     throw new Error("Error al eliminar el comentario");
   }
 };
+
+
+
+
+
+
+
+
 
 
 
