@@ -26,7 +26,12 @@ const Home = () => {
           >
             Regístrate Gratis
           </Link>
-
+          <Link
+            to="/login"
+            className="bg-white text-[#FF6600] px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#e65c00] transition border-2 border-[#FF6600]"  
+          >
+            Inicia Sesión
+          </Link>
         </div>
       </div>
 
