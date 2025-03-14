@@ -57,17 +57,19 @@ const CommentModal = ({ resourceId, userId, userEmail, closeModal }) => {
   
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#D9B2FF] bg-opacity-50 z-50">
+
+      <div className="bg-white border-2 border-[#6A0DAD] p-6 rounded-lg shadow-lg w-200">
+      
         <h2 className="text-lg font-bold text-[#4A90E2] flex items-center gap-2">
           💬 Comentarios
         </h2>
-
+        <div className="bg-[#D9B2FF]">
         <ul className="space-y-2 text-gray-700 mt-4 max-h-60 overflow-y-auto">
           {comments.map((c) => (
             <li 
               key={c.id ?? Math.random()} 
-              className="bg-[#D9B2FF] p-2 rounded-md shadow flex justify-between items-center text-sm"
+              className="bg-white p-2 rounded-md shadow flex justify-between items-center text-sm"
             >
               <div className="flex items-center gap-2 w-full">
                 {editingComment === c.id ? (
@@ -102,6 +104,7 @@ const CommentModal = ({ resourceId, userId, userEmail, closeModal }) => {
             </li>
           ))}
         </ul>
+        </div>
 
         <div className="mt-4">
           <input
@@ -121,7 +124,7 @@ const CommentModal = ({ resourceId, userId, userEmail, closeModal }) => {
 
             <button
               onClick={closeModal}
-              className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2"
+              className="bg-[#6A0DAD] text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2"
             >
               <FaTimes /> Cerrar
             </button>

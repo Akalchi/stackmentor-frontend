@@ -46,8 +46,8 @@ const ResourceForm = ({ onResourceAdded, closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-2xl bg-white bg-opacity-30" >
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative z-50">
 
         <button
           onClick={closeModal}
@@ -126,7 +126,7 @@ const ResourceForm = ({ onResourceAdded, closeModal }) => {
           <button
             type="button"
             onClick={closeModal}
-            className="w-full bg-red-500 text-white py-2 rounded-lg mt-2 hover:bg-[#6A0DAD]"
+            className="w-full bg-[#6A0DAD] text-white py-2 rounded-lg mt-2 hover:bg-[#6A0DAD]"
           >
             Cancelar
           </button>
