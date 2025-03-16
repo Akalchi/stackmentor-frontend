@@ -1,3 +1,4 @@
+import React from "react";
 
 const Sidebar = ({ selectedCategory, setSelectedSubcategory }) => {
   const subcategories = {
