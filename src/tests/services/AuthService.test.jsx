@@ -1,42 +1,43 @@
-
-import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, test, expect, beforeEach, afterEach, jest } from "@jest/globals";
 import axios from "axios";
 import { register, login, logout, getCurrentUser } from "../../services/AuthService.jsx";
 
-vi.mock("axios"); // Ahora usamos `vi.mock()` en lugar de `jest.mock()`
+// Mockeamos axios con Jest
+jest.mock("axios");
 
 describe("authService", () => {
   afterEach(() => {
-    vi.clearAllMocks(); // Limpia los mocks después de cada test
+    jest.clearAllMocks(); // Limpia los mocks después de cada test
   });
 
   describe("register", () => {
-  test("should register a user successfully", async () => {
-    // Definir respuesta simulada
-    const mockResponse = { message: "Usuario Registrado Satisfactoriamente" };
-    axios.post.mockResolvedValueOnce({ data: mockResponse });
-  
-    //Ejecutar función
-    const result = await register("Lanny", "lanny@example.com", "password123");
-  
-    //Verificar resultado
-    expect(result).toEqual(mockResponse);
-  
-    //Verificar que la API se llamó correctamente
-    expect(axios.post).toHaveBeenCalledWith(
+    test("should register a user successfully", async () => {
+      // Definir respuesta simulada
+      const mockResponse = { message: "Usuario Registrado Satisfactoriamente" };
+      axios.post.mockResolvedValueOnce({ data: mockResponse });
+
+      // Ejecutar función
+      const result = await register("Lanny", "lanny@example.com", "password123");
+
+      // Verificar resultado
+      expect(result).toEqual(mockResponse);
+
+      // Verificar que la API se llamó correctamente
+      expect(axios.post).toHaveBeenCalledWith(
         "http://localhost:8080/api/auth/register",
         { username: "Lanny", email: "lanny@example.com", password: "password123" },
         { withCredentials: true }
       );
+    });
+
+    test("should throw error on failed registration", async () => {
+      axios.post.mockRejectedValueOnce({ response: { data: "El Email ya existe" } });
+
+      await expect(register("Lanny", "lanny@example.com", "password123")).rejects.toThrow("El Email ya existe");
+    });
   });
-  
-  test("should throw error on failed registration", async () => {
-    axios.post.mockRejectedValueOnce({ response: { data: "El Email ya existe" } });
-    await expect(register("Lanny", "lanny@example.com", "password123")).rejects.toThrow("El Email ya existe");
-  });
-});
- 
-describe("login", () => {
+
+  describe("login", () => {
     test("should log in successfully and store user in localStorage", async () => {
       const mockUser = { id: 1, username: "Lanny", email: "lanny@example.com", token: "abcd1234" };
       axios.post.mockResolvedValueOnce({ data: mockUser });
@@ -87,4 +88,4 @@ describe("login", () => {
       await expect(getCurrentUser("notfound@example.com")).rejects.toThrow("Usuario no encontrado");
     });
   });
-})
+});
