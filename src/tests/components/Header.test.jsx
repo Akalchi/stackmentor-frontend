@@ -5,9 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthContext, AuthProvider } from "../../context/AuthContext";
 import Header from "../../components/Header";
 
-
-
-
 describe("Header component", () => {
 
     test("should render the Header correctly", () => {
@@ -50,21 +47,21 @@ describe("Header component", () => {
         expect(screen.queryByText(/Frontend/i)).not.toBeInTheDocument();
     });
 
-    test("should call setSelectedCategory when clicking a category", () =>{
+    test("should call setSelectedCategory when clicking a category", () => {
         const setSelectedCategoryMock = jest.fn();
 
         render(
             <BrowserRouter>
-            <AuthContext.Provider value={{user: null, handleLogout: jest.fn()}}>
-                <Header setSelectedCategory={setSelectedCategoryMock} />
-            </AuthContext.Provider>
+                <AuthContext.Provider value={{ user: null, handleLogout: jest.fn() }}>
+                    <Header setSelectedCategory={setSelectedCategoryMock} />
+                </AuthContext.Provider>
             </BrowserRouter>
         );
 
         const dropdownButton = screen.getByText(/Recursos/i);
 
         fireEvent.click(dropdownButton);
-        
+
         const frontendCategory = screen.getByText(/Frontend/i);
         fireEvent.click(frontendCategory);
 
