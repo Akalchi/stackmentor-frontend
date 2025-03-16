@@ -2,8 +2,9 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext, AuthProvider } from "../../context/AuthContext";
 import Header from "../../components/Header";
+
 
 
 
@@ -47,6 +48,27 @@ describe("Header component", () => {
 
         fireEvent.click(dropdownButton);//simulamos el click para cerrar el menu
         expect(screen.queryByText(/Frontend/i)).not.toBeInTheDocument();
+    });
+
+    test("should call setSelectedCategory when clicking a category", () =>{
+        const setSelectedCategoryMock = jest.fn();
+
+        render(
+            <BrowserRouter>
+            <AuthContext.Provider value={{user: null, handleLogout: jest.fn()}}>
+                <Header setSelectedCategory={setSelectedCategoryMock} />
+            </AuthContext.Provider>
+            </BrowserRouter>
+        );
+
+        const dropdownButton = screen.getByText(/Recursos/i);
+
+        fireEvent.click(dropdownButton);
+        
+        const frontendCategory = screen.getByText(/Frontend/i);
+        fireEvent.click(frontendCategory);
+
+        expect(setSelectedCategoryMock).toHaveBeenCalledWith("Frontend");
     });
 
 
